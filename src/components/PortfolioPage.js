@@ -130,25 +130,38 @@ const PortfolioPage = ({ data }) => {
     }
   };
 
-  const renderLinks = (links) => (
-    <div className="link-list">
-      {links.map((link, idx) => {
-        const isMail = link.href?.startsWith("mailto:");
-        const linkProps = isMail
-          ? {}
-          : { target: "_blank", rel: "noopener noreferrer" };
-        return (
-          <div className="link-item" key={idx}>
-            <a href={link.href} {...linkProps}>
-              <span>{link.label}</span>
-              {!isMail && <FaExternalLinkAlt aria-hidden="true" />}
-            </a>
-            {link.note && <p className="link-note">{link.note}</p>}
-          </div>
-        );
-      })}
-    </div>
-  );
+  const renderLinks = (links) => {
+    return (
+      <div className="link-list">
+        {links.map((link, idx) => {
+          const isMail = link.href?.startsWith("mailto:");
+          const isExternal = link.href?.startsWith("http");
+          
+          // PDF 파일이나 내부 정적 파일 경로인 경우 절대 경로로 변환
+          // React Router를 우회하여 직접 정적 파일에 접근
+          let href = link.href;
+          if (!isMail && !isExternal && href && href.startsWith("/")) {
+            // 절대 URL로 변환하여 React Router를 우회
+            // window.location.origin을 사용하면 GitHub Pages에서도 올바르게 동작
+            href = window.location.origin + href;
+          }
+          
+          const linkProps = isMail
+            ? {}
+            : { target: "_blank", rel: "noopener noreferrer" };
+          return (
+            <div className="link-item" key={idx}>
+              <a href={href} {...linkProps}>
+                <span>{link.label}</span>
+                {!isMail && <FaExternalLinkAlt aria-hidden="true" />}
+              </a>
+              {link.note && <p className="link-note">{link.note}</p>}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <div className={`portfolio-page locale-${locale}`}>
