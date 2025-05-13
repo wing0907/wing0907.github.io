@@ -1,0 +1,10 @@
+transformers>=4.42.0
+accelerate>=0.30.0
+safetensors>=0.4.3
+sentence-transformers>=3.0.0
+faiss-cpu>=1.7.4
+pypdf>=4.2.0
+tqdm>=4.66.0
+python-dotenv>=1.0.1
+# GPU에서 4bit 양자화 원하면 (Linux/CUDA에서만) ↓
+bitsandbytes>=0.43.1
