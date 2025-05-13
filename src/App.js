@@ -32,7 +32,7 @@ export default function App() {
   const t = {
     KOR: {
       name: "장우진",
-      title: "AI/프론트엔드 엔지니어",
+      title: "AI/풀스택 엔지니어",
       tagline: "LLM · RAG · React — 정확도는 높이고, 지연/비용은 낮춥니다.",
       aboutTitle: "About",
       aboutText:
@@ -48,7 +48,7 @@ export default function App() {
     },
     ENG: {
       name: "Woojin Jang",
-      title: "AI / Frontend Engineer",
+      title: "AI / Full-Stack Engineer",
       tagline: "LLM · RAG · React — Raise accuracy, lower latency & cost.",
       aboutTitle: "About",
       aboutText:
