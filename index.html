@@ -10,8 +10,7 @@
     function patch() {
       const h1 = document.querySelector('.App-header h1');
       if (!h1) return;
-      // 이미 패치되어 있으면 중복 적용 금지
-      if (h1.querySelector('a')) return;
+      if (h1.querySelector('a')) return; // 중복 방지
 
       const nameText = (h1.textContent || '').trim();
       h1.textContent = '';
@@ -27,17 +26,14 @@
       h1.appendChild(a);
     }
 
-    // 최초 렌더 후 패치
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', patch);
-    } else {
-      patch();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', patch);
+    else patch();
 
-    // React가 재렌더해도 유지되도록 관찰
+    // React가 재렌더해도 유지되도록
     const obs = new MutationObserver(() => patch());
     obs.observe(document.body, { childList: true, subtree: true });
   })();
   </script>
+
   <body><h1>안녕하세요! 곧 포트폴리오가 올라옵니다 🚀</h1></body>
 </html>
