@@ -1,5 +1,43 @@
 <!doctype html>
 <html>
   <head><meta charset="utf-8"><title>Wing Portfolio</title></head>
+  <style>
+    .home-link { color: inherit; text-decoration: none; }
+    .home-link:hover { text-decoration: underline; }
+  </style>
+  <script>
+  (function () {
+    function patch() {
+      const h1 = document.querySelector('.App-header h1');
+      if (!h1) return;
+      // 이미 패치되어 있으면 중복 적용 금지
+      if (h1.querySelector('a')) return;
+
+      const nameText = (h1.textContent || '').trim();
+      h1.textContent = '';
+
+      const a = document.createElement('a');
+      a.className = 'home-link';
+      a.href = '/';
+      a.textContent = nameText;
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      h1.appendChild(a);
+    }
+
+    // 최초 렌더 후 패치
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', patch);
+    } else {
+      patch();
+    }
+
+    // React가 재렌더해도 유지되도록 관찰
+    const obs = new MutationObserver(() => patch());
+    obs.observe(document.body, { childList: true, subtree: true });
+  })();
+  </script>
   <body><h1>안녕하세요! 곧 포트폴리오가 올라옵니다 🚀</h1></body>
 </html>
