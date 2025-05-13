@@ -62,7 +62,7 @@ export default function App() {
       collapseUp: "▴",
       collapseDown: "▾",
     },
-  };
+  }[lang];
 
   // 섹션 펼침 상태
   const [expanded, setExpanded] = useState({
@@ -93,7 +93,7 @@ export default function App() {
     dates:
       lang === "KOR"
         ? "2025.05.13 ~ 현재"
-        : "May 13, 2025 – Present",
+        : "May 13, 2025 – November 07, 2025",
     details:
       lang === "KOR"
         ? [
@@ -199,11 +199,24 @@ export default function App() {
         <div style={{ display:"flex", alignItems:"center", gap:16 }}>
           <ProfileAvatar />
           <div>
-            <h1 style={{ margin:0 }}>{t[lang].name}</h1>
-            <div style={{ color:"#64748b", marginTop:2 }}>{t[lang].title}</div>
+            <h1 style={{ margin:0 }}>
+              <a
+                className="home-link"
+                href="/"
+                onClick={(e) => {
+                  // SPA이므로 새로고침 대신 상단으로 스무스 스크롤
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                {t.name}
+              </a>
+            </h1>
+            <div style={{ color:"#64748b", marginTop:2 }}>{t.title}</div>
           </div>
         </div>
-        <p style={{ marginTop:12 }}>{t[lang].tagline}</p>
+        <p style={{ marginTop:12 }}>{t.tagline}</p>
+
 
         {/* 언어 토글 */}
         <div className="lang-toggle" aria-label="Language toggle" style={{ margin: "10px 0 16px" }}>
@@ -221,16 +234,16 @@ export default function App() {
 
         {/* 연락처 */}
         <div className="contact-icons">
-          <a href="mailto:wing0907@naver.com" aria-label="Email">
+          <a href="mailto:wjj9319@gmail.com" aria-label="Email">
             <FaEnvelope size={28} style={{ margin: "0 12px" }} />
           </a>
-          <a href="tel:+8210-0000-0000" aria-label="Phone">
+          <a href="tel:+8210-8438-4915" aria-label="Phone">
             <FaPhone size={28} style={{ margin: "0 12px" }} />
           </a>
           <a href="https://github.com/wing0907" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <FaGithub size={28} style={{ margin: "0 12px" }} />
           </a>
-          <a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/wjinj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <FaLinkedin size={28} style={{ margin: "0 12px" }} />
           </a>
         </div>
@@ -322,7 +335,7 @@ export default function App() {
       <section className="Contact-section">
         <h2>{t[lang].contact}</h2>
         <p>
-          Email: <a className="App-link" href="mailto:wing0907@naver.com">wing0907@naver.com</a> · GitHub:{" "}
+          Email: <a className="App-link" href="mailto:wjj9319@gmail.com">wjj9319@gmail.com</a> · GitHub:{" "}
           <a className="App-link" href="https://github.com/wing0907" target="_blank" rel="noreferrer">github.com/wing0907</a>
         </p>
         <footer>© {new Date().getFullYear()} {t[lang].name}</footer>
