@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import Entry from "./Entry";
+import Entry from "./Entry.js";
 import { FaEnvelope, FaPhone, FaLinkedin, FaGithub } from "react-icons/fa";
 import {
   SiPython, SiJavascript, SiTypescript, SiReact,
