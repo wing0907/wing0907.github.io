@@ -27,30 +27,23 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install
+      - name: Install deps
         run: npm ci || npm install
 
-      # CRA=build/ , Vite=dist/ 를 생성
-      - name: Build
-        run: |
-          if npm run | grep -q "build"; then
-            npm run build
-          else
-            echo "No build script found. Add 'build' to package.json" && exit 1
-          fi
+      # CRA 빌드. 경고 때문에 실패하지 않도록 CI=false
+      - name: Build (CRA)
+        run: CI=false npm run build
 
-      # SPA 새로고침(깊은 경로) 404 방지
-      - name: SPA fallback (copy index.html as 404.html)
+      # SPA 새로고침 404 방지 + 업로드 경로 지정
+      - name: Prepare artifact
         run: |
-          if [ -d "build" ]; then OUTDIR="build"; elif [ -d "dist" ]; then OUTDIR="dist"; else echo "No build output found" && exit 1; fi
-          cp "$OUTDIR/index.html" "$OUTDIR/404.html"
+          cp build/index.html build/404.html
+          echo "OUTDIR=build" >> $GITHUB_ENV
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: |
-            build
-            dist
+          path: ${{ env.OUTDIR }}
 
   deploy:
     needs: build
