@@ -3,6 +3,17 @@ import { Link } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 const PortfolioPage = ({ data }) => {
+  if (!data) {
+    return (
+      <div className="portfolio-page">
+        <div className="portfolio-section">
+          <h2>콘텐츠를 불러오지 못했습니다.</h2>
+          <p>잠시 후 다시 시도하거나 새로고침 해주세요.</p>
+        </div>
+      </div>
+    );
+  }
+
   const { locale, hero, sections, footerNote } = data;
   const switchPath = locale === "ko" ? "/en" : "/ko";
   const switchLabel = locale === "ko" ? "View English Page" : "한국어 페이지 보기";
