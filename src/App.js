@@ -4,6 +4,29 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PortfolioPage from "./components/PortfolioPage";
 import { portfolioData } from "./data/portfolioData";
 
+const getBasename = (publicUrl) => {
+  if (!publicUrl || publicUrl === ".") {
+    return "/";
+  }
+
+  try {
+    const { pathname } = new URL(publicUrl);
+    if (!pathname || pathname === "/") {
+      return "/";
+    }
+    return pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  } catch (err) {
+    if (publicUrl.startsWith("/")) {
+      return publicUrl.endsWith("/") && publicUrl !== "/"
+        ? publicUrl.slice(0, -1)
+        : publicUrl;
+    }
+
+    const normalized = `/${publicUrl}`.replace(/\/+$/, "");
+    return normalized === "" ? "/" : normalized;
+  }
+};
+
 const NotFound = () => (
   <div className="not-found">
     <h1>404</h1>
@@ -16,8 +39,10 @@ const NotFound = () => (
 );
 
 export default function App() {
+  const basename = React.useMemo(() => getBasename(process.env.PUBLIC_URL), []);
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<Navigate to="/ko" replace />} />
         <Route path="/ko" element={<PortfolioPage data={portfolioData.ko} />} />
